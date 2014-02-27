@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:task="http://www.springframework.org/schema/task">
+
+	
+	<int:channel id="inputChannel"/>
+	
+	<int:channel id="inputChannel2"/>
+	
+	<int:channel id="outputChannel">
+		<int:queue capacity="10"/>
+	</int:channel>
+	
+	<int:service-activator input-channel="inputChannel"
+	                   output-channel="inputChannel2"
+	                   ref="helloService"
+	                   method="sayHello"/>
+	                   
+	<int:service-activator input-channel="inputChannel2"
+	                   output-channel="outputChannel"
+	                   ref="helloService2"
+	                   method="sayHello"/>
+	                   
+	
+	<bean name="helloService" class="demo.si.E03.HelloService"/>
+	<bean name="helloService2" class="demo.si.E03.HelloService2"/>
+</beans>
